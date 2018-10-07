@@ -1,0 +1,56 @@
+#######################################
+# Syntax Coloring Crecomard
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Crecomard	KEYWORD1	Crecomard
+ExtraFunction	KEYWORD1	ExtraFunction
+TimerTask	KEYWORD1	TimerTask
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+#Crecomard
+printDebug	KEYWORD2
+printlnDebug	KEYWORD2
+notifyEvent	KEYWORD2
+setAsOutput	KEYWORD2
+sendPinStates	KEYWORD2
+sendExternChange	KEYWORD2
+toHigh	KEYWORD2
+toLow	KEYWORD2
+togglePin	KEYWORD2
+listen	KEYWORD2
+sendMessage	KEYWORD2
+sendSms	KEYWORD2
+toHigh	KEYWORD2
+doCall	KEYWORD2
+sendEmail	KEYWORD2
+showToast	KEYWORD2
+showAlert	KEYWORD2
+showSnackBar	KEYWORD2
+showNotification	KEYWORD2
+#ExtraFunction
+getFunction	KEYWORD2
+getVal	KEYWORD2
+getExt	KEYWORD2
+isReady	KEYWORD2
+#TimerTask
+isReady	KEYWORD2
+#######################################
+# Constants (LITERAL1)
+#######################################
+DW	LITERAL1
+AW	LITERAL1
+PM_CHANGE	LITERAL1
+DR	LITERAL1
+PM_OUT	LITERAL1
+PM_IN	LITERAL1
+PIN_STATES	LITERAL1
+DR_ALL	LITERAL1
+DW_ALL	LITERAL1
+TASK_DONE	LITERAL1
+
