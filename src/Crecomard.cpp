@@ -40,13 +40,16 @@ Crecomard::Crecomard(HardwareSerial *btSerial)
 	this->extraLen = this->EXTRA.length();
 
 }
-void Crecomard::begin(){
-	this->_btSerial->begin(9600);
+void Crecomard::begin(int baudio){
+	this->_btSerial->begin(baudio);
 	if(this->_debug){
-		Serial.begin(9600);
+		Serial.begin(baudio);
 		//Serial.println("Timbre automatizado");
 		this->sendMessage("ARD_START", "Arduino ha iniciado", 0);
 	}
+}
+void Crecomard::begin(){
+	this->begin(9600);
 }
 void Crecomard::resetValues()
 {

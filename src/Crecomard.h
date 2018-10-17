@@ -42,6 +42,7 @@ public:
 	void listen(ExtraFunction *extra);
 	void listen();
 	void begin();
+	void begin(int baudio);
 	void sendMessage(String _id, String message, int pin);
   //Especials controls
   void sendSms(String number, String message);
