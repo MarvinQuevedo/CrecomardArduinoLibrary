@@ -11,9 +11,9 @@
 ExtraFunction extraTemp2("","","");
 
 
-CrecomardSoftware::CrecomardSoftware(SoftwareSerial *btSerial)
+CrecomardSoftware::CrecomardSoftware(int rx, int tx)
 {
-	this->_btSerial  = btSerial;
+	this->_btSerial  = new SoftwareSerial(rx, tx);
 
 	this->_debug = true;
 

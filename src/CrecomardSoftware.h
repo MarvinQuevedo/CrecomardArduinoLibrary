@@ -12,7 +12,7 @@
 
 class CrecomardSoftware {
 public:
-	CrecomardSoftware(SoftwareSerial *btSerial);
+	CrecomardSoftware(int rx, int tx);
 	void printDebug(String data);
 	void printDebug(char c);
 	void printlnDebug(String data);
