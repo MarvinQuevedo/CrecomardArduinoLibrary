@@ -7,6 +7,7 @@
 #######################################
 
 Crecomard	KEYWORD1	Crecomard
+CrecomardSoftware	KEYWORD1	CrecomardSoftware
 ExtraFunction	KEYWORD1	ExtraFunction
 TimerTask	KEYWORD1	TimerTask
 
