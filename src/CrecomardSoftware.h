@@ -1,32 +1,18 @@
 /*
- * Crecomard.h
+ * CrecomardSoftware.h
  *
- *  Created on: 28 abr. 2017
+ *  Created on: 17 oct. 2018
  *      Author: marvin
  */
+#include "Crecomard.h"
+#include <SoftwareSerial.h>
 
-#include "ExtraFunction.h"
-#ifndef CRECOMARD_H
-#define CRECOMARD_H
+#ifndef CRECOMARD_SRC_CRECOMARDSOFTWARE_H_
+#define CRECOMARD_SRC_CRECOMARDSOFTWARE_H_
 
-
-#define DW "DW"
-#define AW "AW"
-#define PM_CHANGE "PM_CHANGE"
-#define DR "DR"
-#define AR "AR"
-#define PM_OUT "PM_OUT"
-#define PM_IN "PM_IN"
-#define PIN_STATES "PINS_STATES"
-#define DR_ALL "DR_ALL"
-#define DW_ALL "DW_ALL"
-
-#define TASK_DONE "TASK_DONE"
-
-
-class Crecomard {
+class CrecomardSoftware {
 public:
-	Crecomard(HardwareSerial *btSerial);
+	CrecomardSoftware(SoftwareSerial *btSerial);
 	void printDebug(String data);
 	void printDebug(char c);
 	void printlnDebug(String data);
@@ -58,7 +44,7 @@ private:
 	 String EXTRA;
 	 String END;
 	bool _debug;
-	HardwareSerial *_btSerial;
+	SoftwareSerial *_btSerial;
 	int numLen;
 	int valueLen;
 	int extraLen;
@@ -80,4 +66,4 @@ private:
 	void splitDrAll();
 };
 
-#endif /* BLUINODROID_H_ */
+#endif /* CRECOMARD_SRC_CRECOMARDSOFTWARE_H_ */

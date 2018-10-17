@@ -1,25 +1,21 @@
 /*
- * Crecomard.cpp
+ * CrecomardSoftware.cpp
  *
- *  Created on: 28 abr. 2017
+ *  Created on: 17 oct. 2018
  *      Author: marvin
  */
 
-#include "Crecomard.h"
+#include "CrecomardSoftware.h"
 
 //Se usa para cuando no se necesita leer una función extra, se manda un objeto vacio y controlado desde aca
-ExtraFunction extraTemp("","","");
+ExtraFunction extraTemp2("","","");
 
 
-Crecomard::Crecomard(HardwareSerial *btSerial)
+CrecomardSoftware::CrecomardSoftware(SoftwareSerial *btSerial)
 {
 	this->_btSerial  = btSerial;
-  
-  this->_debug = true;
-	if(this->_btSerial == &Serial)
-	{
-		this->_debug = false;
-	}
+
+	this->_debug = true;
 
 	this->endPos = 0;
 	this->valuePos = 0;
@@ -40,7 +36,7 @@ Crecomard::Crecomard(HardwareSerial *btSerial)
 	this->extraLen = this->EXTRA.length();
 
 }
-void Crecomard::begin(){
+void CrecomardSoftware::begin(){
 	this->_btSerial->begin(9600);
 	if(this->_debug){
 		Serial.begin(9600);
@@ -48,9 +44,9 @@ void Crecomard::begin(){
 		this->sendMessage("ARD_START", "Arduino ha iniciado", 0);
 	}
 }
-void Crecomard::resetValues()
+void CrecomardSoftware::resetValues()
 {
-/*	this->numLen = 0;
+	/*this->numLen = 0;
 	this->valueLen = 0;
 	this->extraLen = 0;*/
 	this->endPos = 0;
@@ -61,7 +57,7 @@ void Crecomard::resetValues()
 	this->act2 = "";
 }
 
-void Crecomard::setAsOutput(int *pins, int pSize)
+void CrecomardSoftware::setAsOutput(int *pins, int pSize)
 {
 	pSize = pSize/sizeof(int);
 	  for(int i = 0;i<pSize;i++){
@@ -70,7 +66,7 @@ void Crecomard::setAsOutput(int *pins, int pSize)
 		  this->printDebug("OUTPUT:");this->printlnDebug(String(pins[i]));
 		}
 }
-void Crecomard::setAsOutput(int from, int to)
+void CrecomardSoftware::setAsOutput(int from, int to)
 {
 	for(int i = from;i<=to;i++){
 	  pinMode(i, OUTPUT);
@@ -78,62 +74,62 @@ void Crecomard::setAsOutput(int from, int to)
 	}
 }
 
-void Crecomard::printDebug(String data)
+void CrecomardSoftware::printDebug(String data)
 {
 	if(this->_debug)
 	{
 		Serial.print(data);
 	}
 }
-void Crecomard::printlnDebug(String data)
+void CrecomardSoftware::printlnDebug(String data)
 {
 	this->printDebug(data + "\n");
 }
-void Crecomard::printDebug(char c)
+void CrecomardSoftware::printDebug(char c)
 {
 	this->printDebug(String(c));
 }
 
 
-void Crecomard::sendMessage(String _id, String message, int pin)
+void CrecomardSoftware::sendMessage(String _id, String message, int pin)
 {
 	String msg = "{\"_id\":\""+_id +"\",\"msg\":\""+message+"\",\"pin\":\"" + pin + "\"}";
 	this->_btSerial->println(msg);
 	this->printlnDebug(msg);
 }
-void Crecomard::notifyEvent(String event, String message)
+void CrecomardSoftware::notifyEvent(String event, String message)
 {
 	this->sendMessage(event, message, 0);
 }
-void Crecomard::sendExternChange(int pin, int state)
+void CrecomardSoftware::sendExternChange(int pin, int state)
 {
 
 	String message = "[["+ String(pin)+","+String(state)+"]]";
 	this->notifyEvent(PIN_STATES, message);
 }
-void Crecomard::sendExternChange(int pin, bool digital)
+void CrecomardSoftware::sendExternChange(int pin, bool digital)
 {
 	int state = (digital)?digitalRead(pin):analogRead(pin);
 	this->sendExternChange(pin, state);
 }
-void Crecomard::toHigh(int pin)
+void CrecomardSoftware::toHigh(int pin)
 {
 	digitalWrite(pin, HIGH);
 	this->sendExternChange(pin, HIGH);
 }
-void Crecomard::toLow(int pin)
+void CrecomardSoftware::toLow(int pin)
 {
 	digitalWrite(pin, LOW);
 	this->sendExternChange(pin, LOW);
 }
-void Crecomard::togglePin(int pin)
+void CrecomardSoftware::togglePin(int pin)
 {
 	int read = digitalRead(pin);
 	int action = (read == HIGH)?LOW:HIGH;
 	digitalWrite(pin, action);
 	this->sendExternChange(pin, action);
 }
-void Crecomard::splitOnOffAll(){
+void CrecomardSoftware::splitOnOffAll(){
 
 
 		int c = 0;
@@ -168,7 +164,7 @@ void Crecomard::splitOnOffAll(){
 		this->notifyEvent(TASK_DONE, "done");
 }
 
-void Crecomard::splitDrAll(){
+void CrecomardSoftware::splitDrAll(){
 
 
 	String message = "[";
@@ -199,7 +195,7 @@ void Crecomard::splitDrAll(){
 	message+= "]";
 	this->notifyEvent(PIN_STATES, message);
 }
-void Crecomard::process(ExtraFunction *extra)
+void CrecomardSoftware::process(ExtraFunction *extra)
 {
 
 	  this->printDebug("\nData: ");this->printlnDebug(this->p);
@@ -266,7 +262,7 @@ void Crecomard::process(ExtraFunction *extra)
 	    this->resetValues();
 }
 
-void Crecomard::listen(ExtraFunction *extra)
+void CrecomardSoftware::listen(ExtraFunction *extra)
 {
 	 while(this->_btSerial->available()) {
 	    // get the new byte:
@@ -284,12 +280,12 @@ void Crecomard::listen(ExtraFunction *extra)
 	    }
 	  }
 }
-void Crecomard::listen()
+void CrecomardSoftware::listen()
 {
-	this->listen(&extraTemp);
+	this->listen(&extraTemp2);
 }
-void Crecomard::sendSms(String number, String message){
-  //create a command, the Crecomard APP process this
+void CrecomardSoftware::sendSms(String number, String message){
+  //create a command, the CrecomardSoftware APP process this
   String msg = F("{\"_id\":\"SMS\",\"msg\":\"");
     msg.concat(message);
     msg.concat(F("\",\"pin\":\""));
@@ -298,8 +294,8 @@ void Crecomard::sendSms(String number, String message){
     this->_btSerial->println(msg);
     this->printlnDebug(msg);
 }
-void Crecomard::doCall(String number, long timeout){  
-  //create a command, the Crecomard APP process this
+void CrecomardSoftware::doCall(String number, long timeout){
+  //create a command, the CrecomardSoftware APP process this
   String msg = F("{\"_id\":\"CALL\",\"msg\":\"");
     msg.concat(timeout);
     msg.concat(F("\",\"pin\":\""));
@@ -308,8 +304,8 @@ void Crecomard::doCall(String number, long timeout){
     this->_btSerial->println(msg);
     this->printlnDebug(msg);
 }
-void Crecomard::sendEmail(String email, String message){  
-  //create a command, the Crecomard APP process this
+void CrecomardSoftware::sendEmail(String email, String message){
+  //create a command, the CrecomardSoftware APP process this
     String msg = F("{\"_id\":\"SMAIL\",\"msg\":\"");
     msg.concat(message);
     msg.concat(F("\",\"pin\":\""));
@@ -318,20 +314,20 @@ void Crecomard::sendEmail(String email, String message){
     this->_btSerial->println(msg);
     this->printlnDebug(msg);
 }
-void Crecomard::showToast(String message, bool toastShort){  
-  //create a command, the Crecomard APP process this
-  this->sendMessage(F("TOAST"), message, (toastShort)?0:1); 
+void CrecomardSoftware::showToast(String message, bool toastShort){
+  //create a command, the CrecomardSoftware APP process this
+  this->sendMessage(F("TOAST"), message, (toastShort)?0:1);
 }
-void Crecomard::showToast(String message){  
-  //create a command, the Crecomard APP process this
-  this->sendMessage(F("TOAST"), message, true); 
+void CrecomardSoftware::showToast(String message){
+  //create a command, the CrecomardSoftware APP process this
+  this->sendMessage(F("TOAST"), message, true);
 }
-void Crecomard::showSnackBar(String message){  
-  //create a command, the Crecomard APP process this
-  this->sendMessage(F("SNACK"), message, 0); 
+void CrecomardSoftware::showSnackBar(String message){
+  //create a command, the CrecomardSoftware APP process this
+  this->sendMessage(F("SNACK"), message, 0);
 }
-void Crecomard::showAlert(String message, String title){  
-  //create a command, the Crecomard APP process this
+void CrecomardSoftware::showAlert(String message, String title){
+  //create a command, the CrecomardSoftware APP process this
    String msg = F("{\"_id\":\"ALERT\",\"msg\":\"");
     msg.concat(message);
     msg.concat(F("\",\"pin\":\""));
@@ -340,8 +336,8 @@ void Crecomard::showAlert(String message, String title){
     this->_btSerial->println(msg);
     this->printlnDebug(msg);
 }
-void Crecomard::showNotification(String message, String title){  
-  //create a command, the Crecomard APP process this
+void CrecomardSoftware::showNotification(String message, String title){
+  //create a command, the CrecomardSoftware APP process this
    String msg = F("{\"_id\":\"NOTIS\",\"msg\":\"");
     msg.concat(message);
     msg.concat(F("\",\"pin\":\""));

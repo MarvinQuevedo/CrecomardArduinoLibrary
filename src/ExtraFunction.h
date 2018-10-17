@@ -5,7 +5,7 @@
  *      Author: marvin
  */
 
-#include "Arduino.h"
+#include "TimerTask.h"
 #ifndef BLUINODROID_EXTRAFUNCTION_H_
 #define BLUINODROID_EXTRAFUNCTION_H_
 
